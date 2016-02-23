@@ -29,10 +29,24 @@ function tableScroll(collection) {
         var tblHead = outerWrap.querySelector('thead');
         var tblBody = outerWrap.querySelector('tbody');
         var tblEmpty = emptyElement(element);
+        var tblEmptyWrap = createElem('div', { className: 'js-scroll-wrap-inner' });
 
+        // remove existing tbody
         tblBody.parentNode.removeChild(tblBody);
-        outerWrap.appendChild(tblEmpty);
+        // append empty wrapper and empty table node
         tblEmpty.appendChild(tblBody);
+        tblEmptyWrap.appendChild(tblEmpty);
+        outerWrap.appendChild(tblEmptyWrap);
+    }
+
+    function createElem(elem, opts) {
+        var el = document.createElement(elem);
+
+        Object.keys(opts).forEach(function (opt) {
+            el[opt] = opts[opt];
+        });
+
+        return el;
     }
 
     // empties the contents from the element
