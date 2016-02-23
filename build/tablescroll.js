@@ -25,16 +25,16 @@ function tableScroll(collection) {
     }
 
     function scroll(element) {
-        var tblWrap = createTblWrap();
-        tblWrap.innerHTML = element.innerHTML;
-        console.log(tblWrap);
-
-        element.parentNode.appendChild(tblWrap);
+        var tblWrap = createTblWrap(element);
     }
 
-    function createTblWrap() {
+    function createTblWrap(element) {
         var tblWrap = document.createElement('div');
+        var parentEl = element.parentNode;
+
         tblWrap.className = 'js-scroll-wrap';
+        tblWrap.appendChild(element);
+        parentEl.appendChild(tblWrap);
 
         return tblWrap;
     }
