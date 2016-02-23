@@ -7,6 +7,6 @@ table, td {
   border: 1px solid #e3e2de;
 }
 
-td {
+td, th {
   padding: 1em;
 }
