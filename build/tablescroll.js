@@ -25,10 +25,27 @@ function tableScroll(collection) {
     }
 
     function scroll(element) {
-        var tblWrap = createTblWrap(element);
+        var outerWrap = createOuterWrap(element);
+        var tblHead = outerWrap.querySelector('thead');
+        var tblBody = outerWrap.querySelector('tbody');
+        var tblEmpty = emptyElement(element);
+
+        tblBody.parentNode.removeChild(tblBody);
+        outerWrap.appendChild(tblEmpty);
+        tblEmpty.appendChild(tblBody);
     }
 
-    function createTblWrap(element) {
+    // empties the contents from the element
+    function emptyElement(element) {
+        var copyel = element.cloneNode(true);
+
+        while (copyel.firstChild) {
+            copyel.removeChild(copyel.firstChild);
+        }
+        return copyel;
+    }
+
+    function createOuterWrap(element) {
         var tblWrap = document.createElement('div');
         var parentEl = element.parentNode;
 

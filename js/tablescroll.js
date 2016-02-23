@@ -23,11 +23,27 @@
     }
 
     function scroll(element) {
-      const tblWrap = createTblWrap(element);
+      let outerWrap = createOuterWrap(element);
+      let tblHead = outerWrap.querySelector('thead');
+      let tblBody = outerWrap.querySelector('tbody');
+      let tblEmpty = emptyElement(element);
 
+      tblBody.parentNode.removeChild(tblBody);
+      outerWrap.appendChild(tblEmpty);
+      tblEmpty.appendChild(tblBody);
     }
 
-    function createTblWrap(element) {
+    // empties the contents from the element
+    function emptyElement(element) {
+      let copyel = element.cloneNode(true);
+
+      while (copyel.firstChild) {
+          copyel.removeChild(copyel.firstChild);
+      }
+      return copyel;
+    }
+
+    function createOuterWrap(element) {
       let tblWrap = document.createElement('div');
       let parentEl = element.parentNode;
 
