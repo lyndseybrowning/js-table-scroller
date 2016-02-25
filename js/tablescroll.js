@@ -23,18 +23,30 @@
     }
 
     function scroll(element) {
+      let elWidth = element.offsetWidth;
       let outerWrap = createOuterWrap(element);
       let tblHead = outerWrap.querySelector('thead');
       let tblBody = outerWrap.querySelector('tbody');
-      let tblEmpty = emptyElement(element);
-      let tblEmptyWrap = createElem('div', { className: 'js-scroll-wrap-inner' });
+      let tblElement = emptyElement(element);
+      let scrollWrap = createElem('div', { className: 'js-scroll-wrap-inner' });
 
       // remove existing tbody
       tblBody.parentNode.removeChild(tblBody);
       // append empty wrapper and empty table node
-      tblEmpty.appendChild(tblBody);
-      tblEmptyWrap.appendChild(tblEmpty);
-      outerWrap.appendChild(tblEmptyWrap);      
+      tblElement.appendChild(tblBody);
+      // scroller
+      scrollWrap.appendChild(tblElement);
+      scrollWrap.style.overflowY = 'scroll';
+      scrollWrap.style.overflowX = 'hidden';
+      scrollWrap.style.width = elWidth + 'px';
+      // adjusts widths of outerwrap and inner tables to match widths
+      outerWrap.style.width = elWidth + 'px';
+      outerWrap.firstChild.style.width = '100%';
+      outerWrap.firstChild.style.maxWidth = '100%';
+      tblElement.style.width = '100%';
+      tblElement.style.maxWidth = '100%';
+
+      outerWrap.appendChild(scrollWrap);
     }
 
     function createElem(elem, opts) {
@@ -48,6 +60,7 @@
     }
 
     // empties the contents from the element
+    // and returns the element
     function emptyElement(element) {
       let copyel = element.cloneNode(true);
 
