@@ -23,30 +23,40 @@
     }
 
     function scroll(element) {
+
+      if(options.width) {
+        element.style.width = (typeof options.width === 'number') ? options.width + 'px' : options.width;
+      }
+
       let elWidth = element.offsetWidth;
-      let outerWrap = createOuterWrap(element);
-      let tblHead = outerWrap.querySelector('thead');
-      let tblBody = outerWrap.querySelector('tbody');
-      let tblElement = emptyElement(element);
+      let emptyEl = emptyElement(element);
+
+      let wrapper = createwrapper(element);
+      let tblHead = wrapper.querySelector('thead');
+      let tblBody = wrapper.querySelector('tbody');
       let scrollWrap = createElem('div', { className: 'js-scroll-wrap-inner' });
 
       // remove existing tbody
       tblBody.parentNode.removeChild(tblBody);
+
       // append empty wrapper and empty table node
-      tblElement.appendChild(tblBody);
+      emptyEl.appendChild(tblBody);
+
       // scroller
-      scrollWrap.appendChild(tblElement);
+      scrollWrap.appendChild(emptyEl);
       scrollWrap.style.overflowY = 'scroll';
       scrollWrap.style.overflowX = 'hidden';
       scrollWrap.style.width = elWidth + 'px';
-      // adjusts widths of outerwrap and inner tables to match widths
-      outerWrap.style.width = elWidth + 'px';
-      outerWrap.firstChild.style.width = '100%';
-      outerWrap.firstChild.style.maxWidth = '100%';
-      tblElement.style.width = '100%';
-      tblElement.style.maxWidth = '100%';
 
-      outerWrap.appendChild(scrollWrap);
+      // adjusts widths of all wrappers and inner tables
+      wrapper.style.width = elWidth + 'px';
+      wrapper.firstChild.style.width = '100%';
+      wrapper.firstChild.style.maxWidth = '100%';
+
+      emptyEl.style.width = '100%';
+      emptyEl.style.maxWidth = '100%';
+
+      wrapper.appendChild(scrollWrap);
     }
 
     function createElem(elem, opts) {
@@ -70,7 +80,7 @@
       return copyel;
     }
 
-    function createOuterWrap(element) {
+    function createwrapper(element) {
       let tblWrap = document.createElement('div');
       let parentEl = element.parentNode;
 
@@ -87,9 +97,9 @@
     } else {
       scroll(collection);
     }
-
+    
     function extendDefaults(defaults, obj) {
-      let options;
+      let options = {};
 
       for (let x in obj) {
           if (defaults.hasOwnProperty(x)) {
@@ -100,4 +110,6 @@
     }
 }
 
-tableScroll(document.querySelectorAll('.js-scroll'));
+tableScroll(document.querySelectorAll('.js-scroll'), {
+  width: '60%'
+});
