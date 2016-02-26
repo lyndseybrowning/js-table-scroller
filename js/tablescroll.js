@@ -1,4 +1,6 @@
-﻿function tableScroll(collection) {
+﻿'use strict';
+
+function tableScroll(collection) {
 
     try {
       if (collection == null || (!collection.length && !collection.querySelector)) {
@@ -12,7 +14,8 @@
     // default settings
     // can be overridden by extending
     const defaults = {
-        width: null
+      width: null,
+      height: 300
     };
 
     let options = defaults;
@@ -22,10 +25,13 @@
       options = extendDefaults(defaults, arguments[1]);
     }
 
-    function scroll(element) {
+    function getWidth(opt) {
+      return (typeof opt === 'number') ? opt + 'px' : opt;
+    }
 
-      if(options.width) {
-        element.style.width = (typeof options.width === 'number') ? options.width + 'px' : options.width;
+    function scroll(element) {
+      if (options.width) {
+        element.style.width = getWidth(options.width);
       }
 
       let elWidth = element.offsetWidth;
@@ -42,21 +48,42 @@
       // append empty wrapper and empty table node
       emptyEl.appendChild(tblBody);
 
+      // adjusts widths of wrapper
+      if (options.width) {
+        wrapper.style.width = getWidth(options.width);
+      }
+      wrapper.firstChild.style.width = '100%';
+      wrapper.firstChild.style.maxWidth = '100%';
+
+      // ensure that the initial table is set to 100% of wrapper
+      emptyEl.style.width = '100%';
+      emptyEl.style.maxWidth = '100%';
+
       // scroller
       scrollWrap.appendChild(emptyEl);
       scrollWrap.style.overflowY = 'scroll';
       scrollWrap.style.overflowX = 'hidden';
-      scrollWrap.style.width = elWidth + 'px';
-
-      // adjusts widths of all wrappers and inner tables
-      wrapper.style.width = elWidth + 'px';
-      wrapper.firstChild.style.width = '100%';
-      wrapper.firstChild.style.maxWidth = '100%';
-
-      emptyEl.style.width = '100%';
-      emptyEl.style.maxWidth = '100%';
-
+      scrollWrap.style.minWidth = '100%';
+      scrollWrap.style.maxHeight = options.height + 'px';
+         
+      // finalise table wrapper
       wrapper.appendChild(scrollWrap);
+
+      setColWidths(wrapper);
+
+      window.addEventListener('resize', setColWidths.bind(this, wrapper));
+    }
+
+    function setColWidths(el) {
+      let elHead = el.querySelector('table tr');
+      let elWrap = el.querySelector('.js-scroll-wrap-inner table');
+
+
+      // map widths of inner cells of first row
+      // loop head th/td and match up widths
+      console.log(elHead);
+
+     
     }
 
     function createElem(elem, opts) {
@@ -99,7 +126,7 @@
     }
     
     function extendDefaults(defaults, obj) {
-      let options = {};
+      let options = defaults;
 
       for (let x in obj) {
           if (defaults.hasOwnProperty(x)) {
@@ -111,5 +138,5 @@
 }
 
 tableScroll(document.querySelectorAll('.js-scroll'), {
-  width: '60%'
+  height: 150
 });
