@@ -19,6 +19,7 @@ function tableScroll(collection) {
     };
 
     let options = defaults;
+    let scrollbar = 0;
 
     // extending default settings
     if (({}).toString.call(arguments[1]) == '[object Object]') {
@@ -41,6 +42,7 @@ function tableScroll(collection) {
       let tblHead = wrapper.querySelector('thead');
       let tblBody = wrapper.querySelector('tbody');
       let scrollWrap = createElem('div', { className: 'js-scroll-wrap-inner' });
+      let scrollWrapWidth;
 
       // remove existing tbody
       tblBody.parentNode.removeChild(tblBody);
@@ -69,21 +71,43 @@ function tableScroll(collection) {
       // finalise table wrapper
       wrapper.appendChild(scrollWrap);
 
+      // set scrollbar width
+      scrollWrapWidth = Array.from(scrollWrap.querySelector('tr').children)
+        .map(function (cell) {
+          return cell.offsetWidth;
+        })
+        .reduce(function (prev, current) {          
+          return prev + current;
+        }, 0);
+
+      // calculate width of scrollbar
+      let w = wrapper.getBoundingClientRect().width;
+      let s = scrollWrap.querySelector('table').getBoundingClientRect().width;
+
+      scrollbar = w - s;
+      
       setColWidths(wrapper);
 
       window.addEventListener('resize', setColWidths.bind(this, wrapper));
     }
 
     function setColWidths(el) {
-      let elHead = el.querySelector('table tr');
-      let elWrap = el.querySelector('.js-scroll-wrap-inner table');
+      let headWrap = el.querySelector('table tr');      
+      let cellsWrap = el.querySelector('.js-scroll-wrap-inner table tr');     
 
+      let widths = Array.from(headWrap.children).map(function (head) {
+        return head.offsetWidth;
+      });
 
-      // map widths of inner cells of first row
-      // loop head th/td and match up widths
-      console.log(elHead);
-
-     
+      let cells = Array.from(cellsWrap.children).forEach(function (cell, index) {
+        if (index === widths.length - 1) {
+          cell.style.width = widths[index] - scrollbar + 'px';
+        } else {
+          cell.style.width = widths[index] + 'px';
+        }
+        // force box-sizing 
+        cell.style.boxSizing = 'border-box';
+      });
     }
 
     function createElem(elem, opts) {
@@ -138,5 +162,6 @@ function tableScroll(collection) {
 }
 
 tableScroll(document.querySelectorAll('.js-scroll'), {
-  height: 150
+  width: 500
 });
+
