@@ -1,6 +1,4 @@
-﻿'use strict';
-
-function tableScroll(collection) {
+﻿function tableScroll(collection) {
 
     try {
       if (collection == null || (!collection.length && !collection.querySelector)) {
@@ -161,7 +159,5 @@ function tableScroll(collection) {
     }
 }
 
-tableScroll(document.querySelectorAll('.js-scroll'), {
-  width: 500
-});
+tableScroll(document.querySelectorAll('.js-scroll'));
 
