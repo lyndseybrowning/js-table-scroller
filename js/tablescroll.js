@@ -88,7 +88,7 @@
       } else {
         cell.style.width = widths[index] + 'px';
       }
-    });  
+    });
   }
 
   function createElem(elem, opts) {
@@ -142,6 +142,4 @@
   }
 }
 
-tableScroll(document.querySelectorAll('.js-scroll'), {
-  width: '80%'
-});
+tableScroll(document.querySelectorAll('.js-scroll'));

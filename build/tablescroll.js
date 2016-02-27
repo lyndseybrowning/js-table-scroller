@@ -144,6 +144,4 @@ function tableScroll(collection) {
   }
 }
 
-tableScroll(document.querySelectorAll('.js-scroll'), {
-  width: '80%'
-});
+tableScroll(document.querySelectorAll('.js-scroll'));
