@@ -56,7 +56,8 @@
     // scroller
     scrollWrap.appendChild(emptyEl);
     scrollWrap.style.overflowY = 'scroll';
-    scrollWrap.style.minWidth = '100%';
+    scrollWrap.style.overflowX = 'hidden';
+    scrollWrap.style.width = '100%';
     scrollWrap.style.maxHeight = options.height + 'px';
 
     // finalise table wrapper
@@ -77,17 +78,17 @@
     let headWrap = el.querySelector('table tr');
     let cellsWrap = el.querySelector('.js-scroll-wrap-inner table tr');
 
-    let widths = Array.from(headWrap.children).map(function (head) {
-      return head.offsetWidth;
+    let widths = Array.from(cellsWrap.children).map(function(cell) {
+      return cell.offsetWidth;
     });
 
-    Array.from(cellsWrap.children).forEach(function (cell, index) {
+    Array.from(headWrap.children).forEach(function (cell, index) {
       if (index === widths.length - 1) {
-        cell.style.width = widths[index] - scrollbar + 'px';
+        cell.style.width = widths[index] + scrollbar + 'px';
       } else {
         cell.style.width = widths[index] + 'px';
       }
-    });
+    });  
   }
 
   function createElem(elem, opts) {
