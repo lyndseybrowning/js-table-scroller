@@ -1,4 +1,8 @@
-﻿body {
+* {
+  box-sizing: border-box;
+}
+
+body {
     font-size: 100%;
 }
 
@@ -7,12 +11,13 @@ table {
   border-spacing: 0;
 }
 
-table, td, th {
+td, th {
   border: 1px solid #e3e2de;
 }
 
 td, th {
   padding: 1em;
+  white-space: nowrap;
 }
 
 @media all and (max-width: 400px) {
