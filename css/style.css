@@ -1,4 +1,4 @@
-* {
+*, *:before, *:after {
   box-sizing: border-box;
 }
 
@@ -15,7 +15,7 @@ td, th {
   border: 1px solid #e3e2de;
 }
 
-td, th {
+th, td {
   padding: 1em;
   white-space: nowrap;
 }
