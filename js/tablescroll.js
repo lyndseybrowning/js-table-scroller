@@ -142,4 +142,12 @@
   }
 }
 
-tableScroll(document.querySelectorAll('.js-scroll'));
+// Create jQuery Plugin
+if (window.jQuery) {
+    (($) => {
+        $.fn.tableScroll = function(opts) {
+            tableScroll(this, opts);
+            return this;
+        };
+    })(window.jQuery);
+}

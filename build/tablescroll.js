@@ -144,4 +144,12 @@ function tableScroll(collection) {
   }
 }
 
-tableScroll(document.querySelectorAll('.js-scroll'));
+// Create jQuery Plugin
+if (window.jQuery) {
+  (function ($) {
+    $.fn.tableScroll = function (opts) {
+      tableScroll(this, opts);
+      return this;
+    };
+  })(window.jQuery);
+}
