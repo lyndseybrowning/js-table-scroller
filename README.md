@@ -54,8 +54,6 @@ jQuery:
 
 `$('.tablescroll').tableScroll();`
 
-*NOTE:* Don't forget to add jQuery.
-
 # Settings
 
 The plugin has the following default options:
