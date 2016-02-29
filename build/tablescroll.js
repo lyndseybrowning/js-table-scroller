@@ -79,12 +79,11 @@ function tableScroll(collection) {
   function setColWidths(el) {
     var headWrap = el.querySelector('table tr');
     var cellsWrap = el.querySelector('.js-scroll-wrap-inner table tr');
-
-    var widths = Array.from(cellsWrap.children).map(function (cell) {
+    var widths = [].map.call(cellsWrap.children, function (cell) {
       return cell.offsetWidth;
     });
 
-    Array.from(headWrap.children).forEach(function (cell, index) {
+    [].map.call(headWrap.children, function (cell, index) {
       if (index === widths.length - 1) {
         cell.style.width = widths[index] + scrollbar + 'px';
       } else {
@@ -127,7 +126,7 @@ function tableScroll(collection) {
 
   // run scroll function
   if (collection.length) {
-    collection = Array.from(collection).forEach(scroll);
+    collection = [].forEach.call(collection, scroll);
   } else {
     scroll(collection);
   }
